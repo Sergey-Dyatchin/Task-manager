@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="UTF-8">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        input[type=text] {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        input[type=submit] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input[type=submit]:hover {
+            background-color: #555;
+        }
+    </style>
+<title>Изменение задачи</title>
+</head>
+
+<body>
+<h1>Изменение задачи</h1>
+<p></p>
+
+<form th:action=@{/currentTasksUpdate} th:object="${task}" method="post">
+    <label for= "id" >ID</label>
+    <input type="text" th:field="*{id}" id="id" placeholder="id" readonly>
+    <br/>
+    <label for= "createdDate" >Дата создания</label>
+    <input type="date" th:field="*{createdDate}" id="createdDate" placeholder="Дата создания" readonly>
+    <br/>
+    <label for= "title" >Название</label>
+    <input type="text" th:field="*{title}" id="title" placeholder="Название">
+    <br/>
+    <label for= "content" >Содержание</label>
+    <input type="text" th:field="*{content}" id="content" placeholder="Содержание">
+    <br/>
+    <label for= "comment" >Комментарий</label>
+    <input type="text" th:field="*{comment}" id="comment" placeholder="Комментарий">
+    <br/>
+    <label class="executor">Исполнитель задачи </label>
+    <div class="executor">
+        <select th:field="*{executor}">
+            <option th:each="e: ${executors}"
+                    th:value="${e.id}"
+                    th:text="${e.name}"></option>
+        </select>
+    </div>
+    <label for= "deadlineDate" >Дата дедлайна</label>
+    <input type="date" th:field="*{deadlineDate}" id="deadlineDate" placeholder="Дата дедлайна">
+    <label class="executor">Исполнитель задачи </label>
+    <div class="status">
+        <select th:field="*{status}">
+            <option th:each="e: ${statuses}"
+                    th:value="${e.name}"
+                    th:text="${e}"></option>
+        </select>
+    </div>
+    <br/>
+    <br/>
+    <button type="submit">Сохранить</button>
+</form>
+
+<form action="/home" method="get">
+    <button type="submit">На главную страницу</button>
+</form>
+
+<form action="/currentTasks" method="get">
+    <button type="submit">Текущие задачи</button>
+</form>
+</body>
+
+</html>

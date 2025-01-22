@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title>Текущие задачи</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        input[type=text] {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        input[type=submit] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input[type=submit]:hover {
+            background-color: #555;
+        }
+    </style>
+    <style type="text/css">
+        .tg {
+          border-collapse: collapse;
+          border-spacing: 0;
+          border-color: #ccc;
+        }
+
+        .tg td {
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          padding: 10px 5px;
+          border-style: solid;
+          border-width: 1px;
+          overflow: hidden;
+          word-break: normal;
+          border-color: #ccc;
+          color: #333;
+          background-color: #fff;
+        }
+
+        .tg th {
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          font-weight: normal;
+          padding: 10px 5px;
+          border-style: solid;
+          border-width: 1px;
+          overflow: hidden;
+          word-break: normal;
+          border-color: #ccc;
+          color: #333;
+          background-color: #f0f0f0;
+        }
+
+        .tg .tg-4eph {
+          background-color: #f9f9f9
+        }
+    </style>
+
+</head>
+<body>
+<h1>Текущие задачи</h1>
+
+
+<table class="tg">
+    <thead>
+    <tr>
+        <th width="80">Дата создания</th>
+        <th width="80">Дата дедлайна</th>
+        <th width="160">Название</th>
+        <th width="160">Содержание</th>
+        <th width="160">Комментарий</th>
+        <th width="160">Автор задачи</th>
+        <th width="160">Исполнитель задачи</th>
+        <th width="160">Статус</th>
+        <th width="60">Редактировать</th>
+        <th width="60">Удалить</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+
+        <td th:text="${task.createdDate}"></td>
+        <td th:text="${task.deadlineDate}"></td>
+        <td th:text="${task.title}"></td>
+        <td th:text="${task.content}"></td>
+        <td th:text="${task.comment}"></td>
+        <td th:text="${task.author}"></td>
+        <td th:text="${task.executor}"></td>
+        <td th:text="${task.status}"></td>
+        <td><a th:href="@{currentTasksUpdate/{id}(id=${task.id})}">Редактировать</a></td>
+        <td><a th:href="@{taskDelete/{id}(id=${task.id})}">Удалить</a></td>
+
+    </tr>
+    </tbody>
+</table>
+<form action="/home" method="get">
+    <button type="submit">На главную страницу</button>
+</form>
+
+</body>
+</html>
