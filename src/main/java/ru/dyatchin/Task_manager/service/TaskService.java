@@ -19,4 +19,6 @@ public interface TaskService {
     List<Task> listTasks();
 
     List<Task> getTasksByUser(User user);
+
+    public List<Task> getTenSortByDeadlineDate();
 }

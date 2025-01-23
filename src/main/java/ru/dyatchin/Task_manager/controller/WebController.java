@@ -25,8 +25,15 @@ public class WebController {
 
     private UserService userService;
 
+    /*@GetMapping("/")
+    public String redirectHome(Task task) {
+        return "redirect:/home";
+    }*/
+
     @GetMapping("/home")
-    String home() {
+    String home(Model model) {
+        List<Task> tasks = taskService.getTenSortByDeadlineDate();
+        model.addAttribute("tasks", tasks);
         return "home";
     }
 
@@ -57,20 +64,25 @@ public class WebController {
 
     @GetMapping("taskDelete/{id}")
     public String deleteTask(@PathVariable("id") Long id) {
-        //Task task = taskService.getTaskById(id);
-       // User user = task.getAuthor();
-        //userService.saveUser(user);
-        taskService.deleteTask(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName());
+        Task task = taskService.getTaskById(id);
+        if (user.equals(task.getAuthor())){
+            taskService.deleteTask(id);
+        }
         return "redirect:/currentTasks";
     }
 
     @GetMapping("/currentTasksUpdate/{id}")
     public String updateTask(@PathVariable("id") Long id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(authentication.getName());
         Task task = taskService.getTaskById(id);
         model.addAttribute("task", task);
         List<User> executors = userService.getAllUsers();
         model.addAttribute("executors", executors);
-                model.addAttribute("statuses", Status.values());
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("isOwner",user.equals(task.getAuthor()));
         return "currentTasksUpdate";
     }
 

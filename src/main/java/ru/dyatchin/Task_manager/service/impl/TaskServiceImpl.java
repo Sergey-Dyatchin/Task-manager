@@ -1,6 +1,9 @@
 package ru.dyatchin.Task_manager.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.dyatchin.Task_manager.model.Status;
 import ru.dyatchin.Task_manager.model.Task;
@@ -68,5 +71,11 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByUser(user);
     }
 
+    @Override
+    public List<Task> getTenSortByDeadlineDate() {
+        Page<Task> resultsPage = taskRepository.findAll(PageRequest
+                .of(0, 9, Sort.by("deadlineDate")));
+        return resultsPage.toList();
+    }
 
 }
