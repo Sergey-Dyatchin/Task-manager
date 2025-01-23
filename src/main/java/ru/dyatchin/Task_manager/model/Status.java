@@ -1,5 +1,8 @@
 package ru.dyatchin.Task_manager.model;
 
+/**
+ * Перечисление возможных статусов задач
+ */
 public enum Status {
     CREATED("Создана"),
     ASSIGNED("Назначена"),

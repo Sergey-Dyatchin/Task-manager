@@ -9,6 +9,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сущность пользователя
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,22 +19,35 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
-    private static final long serialVersionUID = 1L;
 
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Имя и фамилия
+     */
     @Column(nullable = false, length = 4096)
     private String name;
 
-
+    /**
+     * Электронная почта
+     */
     @Column(nullable = false, unique = true, length = 4096)
     private String email;
 
+    /**
+     * Пароль
+     */
     @Column(nullable = false)
     private String password;
 
+    /**
+     * Роль пользователя
+     */
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
@@ -44,14 +60,4 @@ public class User {
         return name;
     }
 
-    /*
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST},
-            fetch = FetchType.EAGER)
-    private List<Task> tasks = new ArrayList<>();
-
-    public void addTaskToUser(Task task) {
-        task.setAuthor(this);
-        this.getTasks().add(task);
-    }
- */
 }

@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Сущность роли пользователей
+ */
 @Setter
 @Getter
 @NoArgsConstructor

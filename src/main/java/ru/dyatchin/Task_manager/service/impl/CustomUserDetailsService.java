@@ -13,10 +13,16 @@ import ru.dyatchin.Task_manager.repository.UserRepository;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Пользовательский UserDetailsService
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+     /**
+     * Репозиторий User для работы с БД.
+     */
+    private final UserRepository userRepository;
 
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;

@@ -1,12 +1,14 @@
 package ru.dyatchin.Task_manager.service;
 
 
-
 import ru.dyatchin.Task_manager.dto.UserDto;
 import ru.dyatchin.Task_manager.model.User;
 
 import java.util.List;
 
+/**
+ * Сервис User
+ */
 public interface UserService {
     void saveUserDto(UserDto userDto);
 

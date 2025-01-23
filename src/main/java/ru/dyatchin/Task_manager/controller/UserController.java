@@ -14,25 +14,51 @@ import ru.dyatchin.Task_manager.service.UserService;
 
 import java.util.List;
 
+/**
+ * Контроллер пользователей.
+ */
+
 @Controller
 public class UserController {
 
+    /**
+     * Сервис пользователей.
+     */
     private UserService userService;
 
+    /**
+     * Конструктор.
+     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Перенаправление на домашнюю страницу после успешного входа
+     *
+     * @return redirect:/home
+     */
     @GetMapping("/")
     public String home() {
         return "redirect:/home";
     }
 
+    /**
+     * Загружаем форму для входа
+     *
+     * @return login.html
+     */
     @GetMapping("/login")
     public String loginForm() {
         return "login";
     }
 
+    /**
+     * Загружаем форму для регистрации
+     *
+     * @param model форма UserDto
+     * @return register.html
+     */
     @GetMapping("register")
     public String showRegistrationForm(Model model) {
         UserDto user = new UserDto();
@@ -40,6 +66,14 @@ public class UserController {
         return "register";
     }
 
+    /**
+     * Сохраняем нового пользователя
+     *
+     * @param user   UserDto из формы регистрации
+     * @param result результат валидации
+     * @param model  модель для веб страницы
+     * @return redirect:/register?success
+     */
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto user,
                                BindingResult result,
@@ -57,6 +91,12 @@ public class UserController {
         return "redirect:/register?success";
     }
 
+    /**
+     * Показать страницу с текущими пользователями
+     *
+     * @param model модель для веб страницы
+     * @return users.html
+     */
     @GetMapping("/users")
     public String listRegisteredUsers(Model model) {
         List<UserDto> users = userService.findAllUsers();

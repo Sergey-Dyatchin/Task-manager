@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Класс для получения данных из формы регистрации
+ * используется при отображении страницы users
+ */
 @Getter
 @Setter
 @NoArgsConstructor
