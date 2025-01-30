@@ -1,5 +1,6 @@
 package ru.dyatchin.Task_manager.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.dyatchin.Task_manager.dto.UserDto;
@@ -7,6 +8,7 @@ import ru.dyatchin.Task_manager.model.Role;
 import ru.dyatchin.Task_manager.model.User;
 import ru.dyatchin.Task_manager.repository.RoleRepository;
 import ru.dyatchin.Task_manager.repository.UserRepository;
+import ru.dyatchin.Task_manager.service.mediator.Mediator;
 import ru.dyatchin.Task_manager.service.UserService;
 
 import java.util.List;
@@ -34,19 +36,28 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     /**
+     * Сервис получения уведомлений и информирования пользователей
+     */
+    private Mediator mediator;
+
+
+    /**
      * Конструктор
      *
+     *@param mediator
      * @param userRepository
      * @param roleRepository
      * @param passwordEncoder
      */
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder, Mediator mediator) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mediator = mediator;
     }
+
 
     /**
      * Сохранение User из UserDto
@@ -67,6 +78,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(List.of(role));
         userRepository.save(user);
+        mediator.notifyCustom(user, "Вы зарегистрировались");
     }
 
     /**

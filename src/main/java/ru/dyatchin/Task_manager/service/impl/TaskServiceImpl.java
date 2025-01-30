@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.dyatchin.Task_manager.model.Status;
 import ru.dyatchin.Task_manager.model.Task;
 import ru.dyatchin.Task_manager.repository.TaskRepository;
+import ru.dyatchin.Task_manager.service.mediator.Mediator;
 import ru.dyatchin.Task_manager.service.TaskService;
 
 import java.time.LocalDate;
@@ -26,6 +27,11 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     /**
+     * Сервис получения уведомлений и информирования пользователей
+     */
+    private final Mediator mediator;
+
+    /**
      * Получаем задачу
      * устанавливаем дату создания
      * задаем статус по условию
@@ -42,7 +48,9 @@ public class TaskServiceImpl implements TaskService {
         } else {
             task.setStatus(Status.ASSIGNED);
         }
-        return taskRepository.save(task);
+        task = taskRepository.save(task);
+        mediator.notifyCustom(task, "Создана новая задача");
+        return task;
     }
 
     /**
@@ -83,7 +91,9 @@ public class TaskServiceImpl implements TaskService {
         taskByID.setDeadlineDate(task.getDeadlineDate());
         taskByID.setExecutor(task.getExecutor());
 
-        return taskRepository.save(taskByID);
+        task = taskRepository.save(taskByID);
+        mediator.notifyCustom(task, "Задача изменена");
+        return task;
     }
 
     /**
@@ -93,7 +103,9 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public void deleteTask(Long id) {
+        Task task = getTaskById(id);
         taskRepository.deleteById(id);
+        mediator.notifyCustom(task, "Задача удалена");
     }
 
     /**
